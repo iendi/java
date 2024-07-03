@@ -22,3 +22,18 @@ env:
 
 permissions:
   contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run CRD Model Generation
+        run: |
+          read CRD_SRC_ARGS < <(echo '${{ github.event.inputs.crds }}' | perl -ne 'print join " ", map {"-u $_"} split /,/')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated-java-crd-model
+          path: |
+            ${{ env.GEN_DIR }}
