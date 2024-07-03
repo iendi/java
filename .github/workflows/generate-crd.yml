@@ -1,13 +1,13 @@
-name: Run Docker Command
-
-on: [push]
+name: CRD Java Model Generate
+on:
+  workflow_dispatch:
 
 jobs:
-  run-docker:
+  generate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Download CRD file
@@ -18,7 +18,7 @@ jobs:
           # 删除不兼容的字段
           sed -i '/x-kubernetes-validations/d' gateway.networking.k8s.io_httproutes.yaml
 
-      - name: Run Docker Command
+      - name: Run CRD Model Generation
         run: |
           docker run \
             --rm \
@@ -31,3 +31,11 @@ jobs:
             -n io.k8s.networking.gateway \
             -p io.k8s.networking.gateway \
             -o "$(pwd)"
+
+      - name: List Generated Files
+        run: ls -lh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated-java-crd-model
+          path: .
