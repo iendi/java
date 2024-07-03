@@ -1,27 +1,12 @@
 name: CRD Java Model Generate
 on:
   workflow_dispatch:
-
 jobs:
   generate:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install yq
-        run: |
-          sudo apt-get update && sudo apt-get install -y python3-pip
-          pip3 install yq
-
-      - name: Download CRD file
-        run: curl -o gateway.networking.k8s.io_httproutes.yaml https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/main/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
-
-      - name: Modify CRD file
-        run: |
-          yq e 'del(.spec.versions[].schema.openAPIV3Schema.properties.spec.properties.parentRefs."x-kubernetes-validations")' -i gateway.networking.k8s.io_httproutes.yaml
-
       - name: Run CRD Model Generation
         run: |
           docker run \
@@ -31,14 +16,13 @@ jobs:
             --network host \
             ghcr.io/kubernetes-client/java/crd-model-gen:v1.0.6 \
             /generate.sh \
-            -u "$(pwd)/gateway.networking.k8s.io_httproutes.yaml" \
+            -u https://raw.githubusercontent.com/iendi/java/master/examples/examples-release-17/test.yaml  \
             -n io.k8s.networking.gateway \
             -p io.k8s.networking.gateway \
-            -o "$(pwd)"
-
+            -o "$(pwd)"\
       - name: List Generated Files
-        run: ls -lh
-
+        run: |
+          ls -lh
       - uses: actions/upload-artifact@v4
         with:
           name: generated-java-crd-model
