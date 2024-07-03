@@ -16,7 +16,7 @@ jobs:
             --network host \
             ghcr.io/kubernetes-client/java/crd-model-gen:v1.0.6 \
             /generate.sh \
-            -u https://raw.githubusercontent.com/alibaba/higress/main/samples/gateway-api/demo.yaml  \
+            -u https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/main/config/crd/standard/gateway.networking.k8s.io_gateways.yaml  \
             -n io.k8s.networking.gateway \
             -p io.k8s.networking.gateway \
             -o "$(pwd)"\
