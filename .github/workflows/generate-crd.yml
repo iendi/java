@@ -36,6 +36,8 @@ jobs:
           echo "CRD Src Args: ${CRD_SRC_ARGS}"
           echo "CRD Api Group Prefix Args: ${CRD_API_GROUP_ARGS}"
           mkdir -p ${GEN_DIR}
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(pwd)":"$(pwd)" --network host ${IMAGE_NAME}:${IMAGE_TAG} /generate.sh ${CRD_SRC_ARGS} ${CRD_API_GROUP_ARGS} -p ${{ github.event.inputs.generatingJavaPackage }} -o "$(pwd)/${GEN_DIR}"
+          ls -lh ${GEN_DIR}
       - uses: actions/upload-artifact@v4
         with:
           name: generated-java-crd-model
