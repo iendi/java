@@ -2,21 +2,12 @@ name: CRD Java Model Generate
 on:
   workflow_dispatch:
 jobs:
-  run-docker:
+  generate:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Download and modify CRD file
-        run: |
-          curl -o gateway.networking.k8s.io_httproutes.yaml https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/main/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
-          # Use sed or any other tool to remove x-kubernetes-validations if necessary
-          # For example:
-          sed -i '/x-kubernetes-validations/d' gateway.networking.k8s.io_httproutes.yaml
-
-      - name: Run Docker Command
+      - name: Run CRD Model Generation
         run: |
           docker run \
             --rm \
@@ -25,7 +16,15 @@ jobs:
             --network host \
             ghcr.io/kubernetes-client/java/crd-model-gen:v1.0.6 \
             /generate.sh \
-            -u "$(pwd)/gateway.networking.k8s.io_httproutes.yaml" \
+            --validate=false
+            -u https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/main/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml  \
             -n io.k8s.networking.gateway \
             -p io.k8s.networking.gateway \
             -o "$(pwd)"
+      - name: List Generated Files
+        run: |
+          ls -lh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: generated-java-crd-model
+          path: .
