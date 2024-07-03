@@ -10,13 +10,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Install yq
+        run: |
+          sudo apt-get update && sudo apt-get install -y python3-pip
+          pip3 install yq
+
       - name: Download CRD file
         run: curl -o gateway.networking.k8s.io_httproutes.yaml https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/main/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml
 
       - name: Modify CRD file
         run: |
-          # 删除不兼容的字段
-          sed -i '/x-kubernetes-validations/d' gateway.networking.k8s.io_httproutes.yaml
+          yq e 'del(.spec.versions[].schema.openAPIV3Schema.properties.spec.properties.parentRefs."x-kubernetes-validations")' -i gateway.networking.k8s.io_httproutes.yaml
 
       - name: Run CRD Model Generation
         run: |
