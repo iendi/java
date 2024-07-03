@@ -33,6 +33,9 @@ jobs:
         run: |
           read CRD_SRC_ARGS < <(echo '${{ github.event.inputs.crds }}' | perl -ne 'print join " ", map {"-u $_"} split /,/')
           test -z ${{ github.event.inputs.crdApiGroupPrefix }} || export CRD_API_GROUP_ARGS="-n ${{ github.event.inputs.crdApiGroupPrefix }}"
+          echo "CRD Src Args: ${CRD_SRC_ARGS}"
+          echo "CRD Api Group Prefix Args: ${CRD_API_GROUP_ARGS}"
+          mkdir -p ${GEN_DIR}
       - uses: actions/upload-artifact@v4
         with:
           name: generated-java-crd-model
