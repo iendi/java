@@ -84,7 +84,6 @@ spec:
                   ControllerName is the name of the controller that is managing Gateways of
                   this class. The value of this field MUST be a domain prefixed path.
 
-
                   Example: "example.net/gateway-controller".
 
 
