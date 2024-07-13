@@ -8,7 +8,7 @@ metadata:
   creationTimestamp: null
   name: gateways.gateway.networking.k8s.io
 spec:
-  group: gateway.networking.k8s.io
+  group: gateway.networking.myk8s.io
   names:
     categories:
     - gateway-api
@@ -340,7 +340,7 @@ spec:
                               of a Route resource.
                             properties:
                               group:
-                                default: gateway.networking.k8s.io
+                                default: gateway.networking.myk8s.io
                                 description: Group is the group of the Route.
                                 maxLength: 253
                                 pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
@@ -978,7 +978,7 @@ spec:
                           a Route resource.
                         properties:
                           group:
-                            default: gateway.networking.k8s.io
+                            default: gateway.networking.myk8s.io
                             description: Group is the group of the Route.
                             maxLength: 253
                             pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
@@ -1333,7 +1333,7 @@ spec:
                               of a Route resource.
                             properties:
                               group:
-                                default: gateway.networking.k8s.io
+                                default: gateway.networking.myk8s.io
                                 description: Group is the group of the Route.
                                 maxLength: 253
                                 pattern: ^$|^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
