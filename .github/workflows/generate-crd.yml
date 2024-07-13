@@ -17,8 +17,8 @@ jobs:
             ghcr.io/kubernetes-client/java/crd-model-gen:v1.0.6 \
             /generate.sh \
             -u https://raw.githubusercontent.com/iendi/java/master/examples/examples-release-17/test.yaml  \
-            -n io.k8s.networking.gateway \
-            -p io.k8s.networking.gateway \
+            -n io.myk8s.networking.gateway \
+            -p io.myk8s.networking.gateway \
             -o "$(pwd)"\
       - name: List Generated Files
         run: |
